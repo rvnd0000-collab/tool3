@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Colorful Tools — आपके टूल्स</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#94a3b8;
+      --accent1:#ff7ab6;
+      --accent2:#7afcff;
+      --accent3:#ffd36e;
+      --glass: rgba(255,255,255,0.04);
+      --radius:16px;
+      --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, 'Segoe UI', Roboto, Arial; background:linear-gradient(180deg,#071027 0%, #081428 50%, #071026 100%); color:#e6eef8}
+    .wrap{max-width:var(--maxw);margin:24px auto;padding:18px}header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#072033}
+h1{font-size:20px;margin:0}
+p.lead{margin:0;color:var(--muted);font-size:13px}
+
+main{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px}
+@media(min-width:900px){main{grid-template-columns:320px 1fr}}
+
+/* left panel */
+.sidebar{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+.tools-list{display:flex;flex-direction:column;gap:8px}
+.tool-btn{background:var(--glass);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;display:flex;align-items:center;gap:10px}
+.tool-btn.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#072033;font-weight:600}
+
+/* right content */
+.content{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px;border-radius:12px;min-height:320px}
+.card{background:rgba(255,255,255,0.02);padding:16px;border-radius:12px;margin-bottom:14px}
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+input[type=number], input[type=text], select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+.row{display:flex;gap:10px}
+.row.col{flex-direction:column}
+.btn{display:inline-block;padding:8px 12px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(90deg,var(--accent1),var(--accent3));color:#072033;font-weight:600}
+.muted{color:var(--muted);font-size:13px}
+
+.result{margin-top:12px;padding:12px;border-radius:10px;background:linear-gradient(90deg, rgba(122,252,255,0.06), rgba(255,122,182,0.04));font-weight:700}
+
+footer{margin-top:16px;color:var(--muted);font-size:13px;text-align:center}
+
+/* small helpers */
+.flex{display:flex;align-items:center;gap:8px}
+.space{flex:1}
+.small{font-size:13px}
+
+/* responsive tweaks */
+@media(max-width:899px){
+  .logo{width:48px;height:48px}
+  .brand h1{font-size:18px}
+  header{gap:8px}
+}
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">CT</div>
+        <div>
+          <h1>Colorful Tools</h1>
+          <p class="lead">Simple, fast और mobile-friendly टूल्स</p>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="small muted">डिज़ाइन: रंगीन • Responsive • Offline</div>
+      </div>
+    </header><main>
+  <aside class="sidebar">
+    <div class="muted small">Tools</div>
+    <div class="tools-list" id="toolsList">
+      <button class="tool-btn active" data-tool="emi">🧾 EMI Calculator</button>
+      <button class="tool-btn" data-tool="unit">📏 Unit Converter</button>
+      <button class="tool-btn" data-tool="tip">☕ Tip & Split</button>
+    </div>
+
+    <div style="height:12px"></div>
+    <div class="muted small">Quick tips</div>
+    <div class="small muted" style="margin-top:8px">Mobile पर भी अच्छी तरह काम करेगा — inputs बड़े, बटन touch-friendly।</div>
+  </aside>
+
+  <section class="content">
+    <!-- EMI -->
+    <div id="emi" class="card tool-view">
+      <h3>EMI Calculator</h3>
+      <div class="row col">
+        <label>Loan Amount (₹)</label>
+        <input id="emiLoan" type="number" placeholder="जैसे: 500000">
+      </div>
+      <div class="row" style="margin-top:8px">
+        <div style="flex:1">
+          <label>Interest Rate (% per year)</label>
+          <input id="emiRate" type="number" step="0.01" placeholder="जैसे: 7.5">
+        </div>
+        <div style="width:12px"></div>
+        <div style="flex:1">
+          <label>Time (Years)</label>
+          <input id="emiYears" type="number" step="1" placeholder="जैसे: 5">
+        </div>
+      </div>
+      <div style="margin-top:12px" class="row">
+        <button class="btn" onclick="calcEMI()">Calculate EMI</button>
+        <button class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)" onclick="resetEMI()">Reset</button>
+      </div>
+      <div id="emiResult" class="result" aria-live="polite">यहाँ परिणाम दिखेगा</div>
+    </div>
+
+    <!-- Unit Converter -->
+    <div id="unit" class="card tool-view" style="display:none">
+      <h3>Unit Converter — Length</h3>
+      <div class="row">
+        <div style="flex:1">
+          <label>Value</label>
+          <input id="unitValue" type="number" placeholder="Amount">
+        </div>
+        <div style="width:12px"></div>
+        <div style="flex:1">
+          <label>From</label>
+          <select id="unitFrom">
+            <option value="m">मीटर (m)</option>
+            <option value="cm">सेमी (cm)</option>
+            <option value="km">किमी (km)</option>
+            <option value="in">इंच (in)</option>
+            <option value="ft">फीट (ft)</option>
+          </select>
+        </div>
+        <div style="width:12px"></div>
+        <div style="flex:1">
+          <label>To</label>
+          <select id="unitTo">
+            <option value="cm">सेमी (cm)</option>
+            <option value="m">मीटर (m)</option>
+            <option value="km">किमी (km)</option>
+            <option value="in">इंच (in)</option>
+            <option value="ft">फीट (ft)</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top:12px" class="row">
+        <button class="btn" onclick="convertUnit()">Convert</button>
+        <button class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)" onclick="resetUnit()">Reset</button>
+      </div>
+      <div id="unitResult" class="result">यहाँ परिणाम दिखेगा</div>
+    </div>
+
+    <!-- Tip Calculator -->
+    <div id="tip" class="card tool-view" style="display:none">
+      <h3>Tip & Split Calculator</h3>
+      <div class="row col">
+        <label>Bill Amount (₹)</label>
+        <input id="billAmt" type="number" placeholder="बिल राशि">
+      </div>
+      <div class="row" style="margin-top:8px">
+        <div style="flex:1">
+          <label>Tip %</label>
+          <input id="tipPercent" type="number" placeholder="जैसे: 10">
+        </div>
+        <div style="width:12px"></div>
+        <div style="flex:1">
+          <label>Split Between (people)</label>
+          <input id="splitCount" type="number" placeholder="जैसे: 2">
+        </div>
+      </div>
+      <div style="margin-top:12px" class="row">
+        <button class="btn" onclick="calcTip()">Calculate</button>
+        <button class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)" onclick="resetTip()">Reset</button>
+      </div>
+      <div id="tipResult" class="result">यहाँ परिणाम दिखेगा</div>
+    </div>
+
+    <footer>© {2025} Colorful Tools — Simple & Fast</footer>
+  </section>
+</main>
+
+  </div>  <script>
+    // Tool navigation
+    const buttons = document.querySelectorAll('.tool-btn');
+    const views = document.querySelectorAll('.tool-view');
+    buttons.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        buttons.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const tool = btn.dataset.tool;
+        views.forEach(v=> v.style.display = v.id === tool ? 'block' : 'none');
+      })
+    });
+
+    // EMI logic
+    function calcEMI(){
+      const loan = parseFloat(document.getElementById('emiLoan').value || 0);
+      const rate = parseFloat(document.getElementById('emiRate').value || 0);
+      const years = parseFloat(document.getElementById('emiYears').value || 0);
+      const out = document.getElementById('emiResult');
+      if(!loan || !rate || !years){ out.textContent = 'कृपया सभी वैल्यू सही भरें।'; return }
+      const r = rate/12/100;
+      const n = years*12;
+      const emi = (loan * r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1);
+      const total = emi * n;
+      const interest = total - loan;
+      out.innerHTML = मासिक EMI: ₹${emi.toFixed(2)}<br>कुल भुगतान: ₹${total.toFixed(2)} (जिसमें ब्याज ₹${interest.toFixed(2)} शामिल है);
+    }
+    function resetEMI(){ document.getElementById('emiLoan').value='';document.getElementById('emiRate').value='';document.getElementById('emiYears').value='';document.getElementById('emiResult').textContent='यहाँ परिणाम दिखेगा'; }
+
+    // Unit convert logic (length)
+    const conv = {
+      m:1,
+      cm:0.01,
+      km:1000,
+      in:0.0254,
+      ft:0.3048
+    };
+    function convertUnit(){
+      const val = parseFloat(document.getElementById('unitValue').value||0);
+      const from = document.getElementById('unitFrom').value;
+      const to = document.getElementById('unitTo').value;
+      const out = document.getElementById('unitResult');
+      if(!val){ out.textContent='कृपया एक मान दर्ज करें।'; return }
+      const meters = val * conv[from];
+      const result = meters / conv[to];
+      out.textContent = ${val} ${from} = ${Number(result.toFixed(6))} ${to};
+    }
+    function resetUnit(){ document.getElementById('unitValue').value=''; document.getElementById('unitResult').textContent='यहाँ परिणाम दिखेगा'; }
+
+    // Tip logic
+    function calcTip(){
+      const bill = parseFloat(document.getElementById('billAmt').value||0);
+      const tipP = parseFloat(document.getElementById('tipPercent').value||0);
+      const people = parseInt(document.getElementById('splitCount').value||1);
+      const out = document.getElementById('tipResult');
+      if(!bill || tipP<0 || people<1){ out.textContent='कृपया सही मान भरें।'; return }
+      const tip = bill * (tipP/100);
+      const total = bill + tip;
+      const per = total / people;
+      out.innerHTML = Tip: ₹${tip.toFixed(2)}<br>Total: ₹${total.toFixed(2)}<br>Each: ₹${per.toFixed(2)} (for ${people} लोग);
+    }
+    function resetTip(){ document.getElementById('billAmt').value='';document.getElementById('tipPercent').value='';document.getElementById('splitCount').value='';document.getElementById('tipResult').textContent='यहाँ परिणाम दिखेगा'; }
+
+    // Small accessibility: allow Enter to calculate when focus in inputs
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter'){
+        const active = document.querySelector('.tool-btn.active').dataset.tool;
+        if(active==='emi') calcEMI();
+        if(active==='unit') convertUnit();
+        if(active==='tip') calcTip();
+      }
+    });
+  </script></body>
+</html>
